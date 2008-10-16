@@ -1,3 +1,7 @@
+
+# there are sphinx.spec, sphinx2.spec...  Sphinx.spec is too confusing
+# therefore the name for this package is sphinx-pdg (pdg - python
+# documentation generator)
 Summary:	Python documentation generator
 Name:		sphinx-pdg
 Version:	0.4.3
@@ -7,8 +11,8 @@ Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
 # Source0-md5:	b3c17f1b5be0b76c373a2474488f1662
 URL:		http://pypi.python.org/pypi/Sphinx
-#BuildRequires:	python-devel
-#BuildRequires:	python-pygtk-gtk >= 2.8.4
+Requires:	python-docutils >= 0.5
+BuildRequires:	python-devel
 %pyrequires_eq	python-modules
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -45,5 +49,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{py_sitescriptdir}/sphinx
 %{py_sitescriptdir}/Sphinx*egg*
-#%{_desktopdir}/%{name}.desktop
-#%{_pixmapsdir}/*.png
