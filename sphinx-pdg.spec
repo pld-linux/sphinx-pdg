@@ -12,6 +12,8 @@ Source0:	http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.g
 # Source0-md5:	b3c17f1b5be0b76c373a2474488f1662
 URL:		http://pypi.python.org/pypi/Sphinx
 Requires:	python-docutils >= 0.5
+Requires:	python-jinja >= 1.1
+Requires:	python-pygments >= 0.11.1
 BuildRequires:	python-devel
 %pyrequires_eq	python-modules
 BuildArch:	noarch
@@ -32,7 +34,6 @@ been cleaned up in the hope that it will be useful to many other projects.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_desktopdir}}
 
 %{__python} setup.py install \
 		--optimize=2 \
