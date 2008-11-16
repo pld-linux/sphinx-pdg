@@ -5,7 +5,7 @@
 Summary:	Python documentation generator
 Name:		sphinx-pdg
 Version:	0.4.3
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
