@@ -11,20 +11,24 @@ Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
 # Source0-md5:	a65e0bcff6f79a7c013220d00ea137ad
 URL:		http://pypi.python.org/pypi/Sphinx
+BuildRequires:	python-devel
+BuildRequires:	python-modules
+BuildRequires:	python-setuptools
+BuildRequires:	rpm-pythonprov
 Requires:	python-docutils >= 0.5
 Requires:	python-jinja2 >= 2.1
 Requires:	python-pygments >= 0.11.1
-BuildRequires:	python-devel
 %pyrequires_eq	python-modules
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Sphinx is a tool that makes it easy to create intelligent and beautiful
-documentation for Python projects (or other documents consisting of
-multiple reStructuredText sources), written by Georg Brandl. It was
-originally created to translate the new Python documentation, but has now
-been cleaned up in the hope that it will be useful to many other projects.
+Sphinx is a tool that makes it easy to create intelligent and
+beautiful documentation for Python projects (or other documents
+consisting of multiple reStructuredText sources), written by Georg
+Brandl. It was originally created to translate the new Python
+documentation, but has now been cleaned up in the hope that it will be
+useful to many other projects.
 
 %prep
 %setup -q -n Sphinx-%{version}
