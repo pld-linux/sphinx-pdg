@@ -31,18 +31,51 @@ Brandl. It was originally created to translate the new Python
 documentation, but has now been cleaned up in the hope that it will be
 useful to many other projects.
 
+%package -n sphinx-pdg-3
+Summary:	Python documentation generator (Python 3)
+Group:		Development/Languages/Python
+Requires:	python3-distribute
+Requires:	python3-docutils >= 0.8
+Requires:	python3-jinja2 >= 2.1
+Requires:	python3-pygments >= 0.11.1
+
+%description -n sphinx-pdg-3
+Sphinx is a tool that makes it easy to create intelligent and
+beautiful documentation for Python projects (or other documents
+consisting of multiple reStructuredText sources), written by Georg
+Brandl. It was originally created to translate the new Python
+documentation, but has now been cleaned up in the hope that it will be
+useful to many other projects.
+
 %prep
 %setup -q -n Sphinx-%{version}
+cp -a ../Sphinx-%{version} ../py3k
+mv ../py3k .
 
 %build
-%{__python} setup.py build
+%{__python} setup.py build -b build-2
+
+(cd py3k
+2to3-3.2 -w .
+%{__python3} setup.py build -b build-3
+)
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__python} setup.py install \
-		--optimize=2 \
-		--root=$RPM_BUILD_ROOT
+(cd py3k
+%{__python3} setup.py build -b build-3 install \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
+)
+
+for f in $RPM_BUILD_ROOT%{_bindir}/*; do
+	mv "${f}" "${f}-3"
+done
+
+%{__python} setup.py build -b build-2 install \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
 
 %py_postclean
 
@@ -53,5 +86,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README PKG-INFO TODO AUTHORS
 %attr(755,root,root) %{_bindir}/*
+%exclude %{_bindir}/*-3
 %{py_sitescriptdir}/sphinx
 %{py_sitescriptdir}/Sphinx*egg*
+
+%files -n %{name}-3
+%defattr(644,root,root,755)
+%doc README PKG-INFO TODO AUTHORS
+%attr(755,root,root) %{_bindir}/*-3
+%{py3_sitescriptdir}/sphinx
+%{py3_sitescriptdir}/Sphinx*egg*
