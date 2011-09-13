@@ -1,8 +1,8 @@
-
 # there are sphinx.spec, sphinx2.spec...  Sphinx.spec is too confusing
 # therefore the name for this package is sphinx-pdg (pdg - python
 # documentation generator)
-Summary:	Python documentation generator
+Summary:	Sphinx - Python documentation generator
+Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
 Version:	1.0.7
 Release:	1
@@ -15,6 +15,7 @@ BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	python-setuptools
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.219
 Requires:	python-distribute
 Requires:	python-docutils >= 0.5
 Requires:	python-jinja2 >= 2.1
@@ -31,15 +32,24 @@ Brandl. It was originally created to translate the new Python
 documentation, but has now been cleaned up in the hope that it will be
 useful to many other projects.
 
-%package -n sphinx-pdg-3
-Summary:	Python documentation generator (Python 3)
+%description -l pl.UTF-8
+Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
+dokumentacji dla projektów w Pythonie (lub innych dokumentów
+składających się z wielu źródeł w formacie reStructuredText), napisane
+przez Georga Brandla. Pierwotnie powstało do tłumaczenia nowej
+dokumentacji Pythona, ale potem zostało wyczyszczone w nadziei, że
+będzie przydatne dla wielu innych projektów.
+
+%package 3
+Summary:	Sphinx Python documentation generator (Python 3 version)
+Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (wersja dla Pythona 3)
 Group:		Development/Languages/Python
 Requires:	python3-distribute
 Requires:	python3-docutils >= 0.8
 Requires:	python3-jinja2 >= 2.1
 Requires:	python3-pygments >= 0.11.1
 
-%description -n sphinx-pdg-3
+%description 3
 Sphinx is a tool that makes it easy to create intelligent and
 beautiful documentation for Python projects (or other documents
 consisting of multiple reStructuredText sources), written by Georg
@@ -47,27 +57,35 @@ Brandl. It was originally created to translate the new Python
 documentation, but has now been cleaned up in the hope that it will be
 useful to many other projects.
 
+%description 3 -l pl.UTF-8
+Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
+dokumentacji dla projektów w Pythonie (lub innych dokumentów
+składających się z wielu źródeł w formacie reStructuredText), napisane
+przez Georga Brandla. Pierwotnie powstało do tłumaczenia nowej
+dokumentacji Pythona, ale potem zostało wyczyszczone w nadziei, że
+będzie przydatne dla wielu innych projektów.
+
 %prep
 %setup -q -n Sphinx-%{version}
-cp -a ../Sphinx-%{version} ../py3k
-mv ../py3k .
+mkdir .py3k
+cp -a * .py3k
+mv .py3k py3k
 
 %build
 %{__python} setup.py build -b build-2
 
-(cd py3k
+cd py3k
 2to3-3.2 -w .
 %{__python3} setup.py build -b build-3
-)
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-(cd py3k
+cd py3k
 %{__python3} setup.py build -b build-3 install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
-)
+cd ..
 
 for f in $RPM_BUILD_ROOT%{_bindir}/*; do
 	mv "${f}" "${f}-3"
@@ -84,15 +102,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README PKG-INFO TODO AUTHORS
-%attr(755,root,root) %{_bindir}/*
-%exclude %{_bindir}/*-3
+%doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README TODO
+%attr(755,root,root) %{_bindir}/sphinx-autogen
+%attr(755,root,root) %{_bindir}/sphinx-build
+%attr(755,root,root) %{_bindir}/sphinx-quickstart
 %{py_sitescriptdir}/sphinx
-%{py_sitescriptdir}/Sphinx*egg*
+%{py_sitescriptdir}/Sphinx-%{version}-py*.egg-info
 
-%files -n %{name}-3
+%files 3
 %defattr(644,root,root,755)
-%doc README PKG-INFO TODO AUTHORS
-%attr(755,root,root) %{_bindir}/*-3
+%doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README TODO
+%attr(755,root,root) %{_bindir}/sphinx-autogen-3
+%attr(755,root,root) %{_bindir}/sphinx-build-3
+%attr(755,root,root) %{_bindir}/sphinx-quickstart-3
 %{py3_sitescriptdir}/sphinx
-%{py3_sitescriptdir}/Sphinx*egg*
+%{py3_sitescriptdir}/Sphinx-%{version}-py*.egg-info
