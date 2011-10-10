@@ -4,12 +4,12 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	1.0.8
+Version:	1.1
 Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	6f9aace3f7e523ce55514eafa2764c6f
+# Source0-md5:	909927a2c0fe62e7ff5794387c8af34e
 URL:		http://sphinx.pocoo.org/
 BuildRequires:	python-devel
 BuildRequires:	python-modules
@@ -142,6 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README TODO
 %attr(755,root,root) %{_bindir}/sphinx-autogen
+%attr(755,root,root) %{_bindir}/sphinx-apidoc
 %attr(755,root,root) %{_bindir}/sphinx-build
 %attr(755,root,root) %{_bindir}/sphinx-quickstart
 
@@ -149,6 +150,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README TODO
 %attr(755,root,root) %{_bindir}/sphinx-autogen-3
+%attr(755,root,root) %{_bindir}/sphinx-apidoc-3
 %attr(755,root,root) %{_bindir}/sphinx-build-3
 %attr(755,root,root) %{_bindir}/sphinx-quickstart-3
 
