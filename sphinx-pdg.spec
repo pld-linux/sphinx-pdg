@@ -63,9 +63,9 @@ Summary:	Sphinx Python documentation generator (Python 2.x modules)
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (moduły Pythona 2.x)
 Group:		Development/Languages/Python
 Requires:	python-distribute
-Requires:	python-docutils >= 0.5
-Requires:	python-jinja2 >= 2.1
-Requires:	python-pygments >= 0.11.1
+Requires:	python-docutils >= 0.7
+Requires:	python-jinja2 >= 2.3
+Requires:	python-pygments >= 1.2
 %pyrequires_eq	python-modules
 Conflicts:	sphinx-pdg < 1.0.7-2
 
@@ -87,8 +87,8 @@ Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (mo
 Group:		Development/Languages/Python
 Requires:	python3-distribute
 Requires:	python3-docutils >= 0.8
-Requires:	python3-jinja2 >= 2.1
-Requires:	python3-pygments >= 0.11.1
+Requires:	python3-jinja2 >= 2.3
+Requires:	python3-pygments >= 1.2
 Conflicts:	sphinx-pdg-3 < 1.0.7-2
 
 %description -n python3-Sphinx
