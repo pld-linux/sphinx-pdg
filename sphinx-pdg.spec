@@ -17,6 +17,7 @@ BuildRequires:	python-modules >= 1:2.5
 BuildRequires:	python3-2to3
 BuildRequires:	python3-devel
 BuildRequires:	python3-distribute
+BuildRequires:	python3-modules
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 Requires:	python-Sphinx = %{version}-%{release}
