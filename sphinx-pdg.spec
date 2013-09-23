@@ -5,11 +5,12 @@ Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
 Version:	1.1.3
-Release:	3
+Release:	4
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
 # Source0-md5:	8f55a6d4f87fc6d528120c5d1f983e98
+Patch0:		sphinx-docutils-0.10.patch
 URL:		http://sphinx.pocoo.org/
 BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	python-distribute
@@ -110,12 +111,13 @@ sphinx-pdg-3.
 
 %prep
 %setup -q -n Sphinx-%{version}
+%patch0 -p1
 
 %build
 %{__python} setup.py build -b build-2
-rm sphinx/__init__.pyc
+%{__rm} sphinx/__init__.pyc
 %{__python3} setup.py build -b build-3
-rm -r sphinx/__pycache__
+%{__rm} -r sphinx/__pycache__
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -123,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__python3} setup.py build -b build-3 install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
-rm -r sphinx/__pycache__
+%{__rm} -r sphinx/__pycache__
 
 for f in $RPM_BUILD_ROOT%{_bindir}/*; do
 	mv "${f}" "${f}-3"
@@ -132,7 +134,7 @@ done
 %{__python} setup.py build -b build-2 install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
-rm sphinx/__init__.pyc
+%{__rm} sphinx/__init__.pyc
 
 %py_postclean
 
