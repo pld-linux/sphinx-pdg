@@ -4,13 +4,12 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	1.1.3
-Release:	4
+Version:	1.2.1
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
-Source0:	http://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	8f55a6d4f87fc6d528120c5d1f983e98
-Patch0:		sphinx-docutils-0.10.patch
+Source0:	https://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
+# Source0-md5:	104494f036889122c9f403ae065ae7a9
 URL:		http://sphinx.pocoo.org/
 BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	python-distribute
@@ -111,7 +110,6 @@ sphinx-pdg-3.
 
 %prep
 %setup -q -n Sphinx-%{version}
-%patch0 -p1
 
 %build
 %{__python} setup.py build -b build-2
@@ -143,7 +141,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README TODO
+%doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README.rst TODO
 %attr(755,root,root) %{_bindir}/sphinx-autogen
 %attr(755,root,root) %{_bindir}/sphinx-apidoc
 %attr(755,root,root) %{_bindir}/sphinx-build
@@ -151,7 +149,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files 3
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README TODO
+%doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README.rst TODO
 %attr(755,root,root) %{_bindir}/sphinx-autogen-3
 %attr(755,root,root) %{_bindir}/sphinx-apidoc-3
 %attr(755,root,root) %{_bindir}/sphinx-build-3
