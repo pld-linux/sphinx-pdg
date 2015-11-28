@@ -1,11 +1,15 @@
 # there are sphinx.spec, sphinx2.spec...  Sphinx.spec is too confusing
 # therefore the name for this package is sphinx-pdg (pdg - python
 # documentation generator)
+#
+# Conditional build:
+%bcond_without	python3_default	# Use Python 3.x for easy_install executable
+
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
 Version:	1.3.1
-Release:	3
+Release:	4
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	https://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
@@ -20,8 +24,17 @@ BuildRequires:	python3-setuptools > 7.0
 BuildRequires:	python3-modules
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
+%if %{with python3_default}
+Requires:	python3-Sphinx = %{version}-%{release}
+Requires:	python3-devel-tools
+Provides:	%{name}-3 = %{version}-%{release}
+Obsoletes:	%{name}-3
+%else
 Requires:	python-Sphinx = %{version}-%{release}
 Requires:	python-devel-tools
+Provides:	%{name}-2 = %{version}-%{release}
+Obsoletes:	%{name}-2
+%endif
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -56,6 +69,28 @@ documentation, but has now been cleaned up in the hope that it will be
 useful to many other projects.
 
 %description 3 -l pl.UTF-8
+Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
+dokumentacji dla projektów w Pythonie (lub innych dokumentów
+składających się z wielu źródeł w formacie reStructuredText), napisane
+przez Georga Brandla. Pierwotnie powstało do tłumaczenia nowej
+dokumentacji Pythona, ale potem zostało wyczyszczone w nadziei, że
+będzie przydatne dla wielu innych projektów.
+
+%package 2
+Summary:	Sphinx Python documentation generator (Python 2 version)
+Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (wersja dla Pythona 2)
+Group:		Development/Languages/Python
+Requires:	python2-Sphinx = %{version}-%{release}
+
+%description 2
+Sphinx is a tool that makes it easy to create intelligent and
+beautiful documentation for Python projects (or other documents
+consisting of multiple reStructuredText sources), written by Georg
+Brandl. It was originally created to translate the new Python
+documentation, but has now been cleaned up in the hope that it will be
+useful to many other projects.
+
+%description 2 -l pl.UTF-8
 Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
 dokumentacji dla projektów w Pythonie (lub innych dokumentów
 składających się z wielu źródeł w formacie reStructuredText), napisane
@@ -112,29 +147,39 @@ sphinx-pdg-3.
 %setup -q -n Sphinx-%{version}
 
 %build
-%{__python} setup.py build -b build-2
+%py_build
 %{__rm} sphinx/__init__.pyc
-%{__python3} setup.py build -b build-3
+%py3_build
 %{__rm} -r sphinx/__pycache__
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__python3} setup.py build -b build-3 install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
+%{__rm} sphinx/__init__.pyc
+%py_postclean
+
+for f in $RPM_BUILD_ROOT%{_bindir}/*; do
+	mv "${f}" "${f}-2"
+done
+
+%py3_install
 %{__rm} -r sphinx/__pycache__
 
 for f in $RPM_BUILD_ROOT%{_bindir}/*; do
+	[ "${f%%-2}" == "$f" ] || continue
 	mv "${f}" "${f}-3"
 done
 
-%{__python} setup.py build -b build-2 install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
-%{__rm} sphinx/__init__.pyc
-
-%py_postclean
+%if %{with python3_default}
+for f in $RPM_BUILD_ROOT%{_bindir}/*-3; do
+	ln "${f}" "${f%%-3}"
+done
+%else
+for f in $RPM_BUILD_ROOT%{_bindir}/*-2; do
+	ln "${f}" "${f%%-2}"
+done
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -146,6 +191,25 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/sphinx-apidoc
 %attr(755,root,root) %{_bindir}/sphinx-build
 %attr(755,root,root) %{_bindir}/sphinx-quickstart
+%if %{with python3_default}
+%attr(755,root,root) %{_bindir}/sphinx-autogen-3
+%attr(755,root,root) %{_bindir}/sphinx-apidoc-3
+%attr(755,root,root) %{_bindir}/sphinx-build-3
+%attr(755,root,root) %{_bindir}/sphinx-quickstart-3
+
+%files 2
+%defattr(644,root,root,755)
+%doc AUTHORS CHANGES EXAMPLES LICENSE PKG-INFO README.rst
+%attr(755,root,root) %{_bindir}/sphinx-autogen-2
+%attr(755,root,root) %{_bindir}/sphinx-apidoc-2
+%attr(755,root,root) %{_bindir}/sphinx-build-2
+%attr(755,root,root) %{_bindir}/sphinx-quickstart-2
+
+%else
+%attr(755,root,root) %{_bindir}/sphinx-autogen-2
+%attr(755,root,root) %{_bindir}/sphinx-apidoc-2
+%attr(755,root,root) %{_bindir}/sphinx-build-2
+%attr(755,root,root) %{_bindir}/sphinx-quickstart-2
 
 %files 3
 %defattr(644,root,root,755)
@@ -154,6 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/sphinx-apidoc-3
 %attr(755,root,root) %{_bindir}/sphinx-build-3
 %attr(755,root,root) %{_bindir}/sphinx-quickstart-3
+%endif
 
 %files -n python-Sphinx
 %defattr(644,root,root,755)
