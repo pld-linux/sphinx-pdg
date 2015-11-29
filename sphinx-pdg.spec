@@ -16,24 +16,24 @@ Source0:	https://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.
 # Source0-md5:	8786a194acf9673464c5455b11fd4332
 URL:		http://sphinx.pocoo.org/
 BuildRequires:	python-devel >= 1:2.5
-BuildRequires:	python-setuptools > 7.0
 BuildRequires:	python-modules >= 1:2.5
+BuildRequires:	python-setuptools >= 7.0
 BuildRequires:	python3-2to3
 BuildRequires:	python3-devel
-BuildRequires:	python3-setuptools > 7.0
 BuildRequires:	python3-modules
+BuildRequires:	python3-setuptools >= 7.0
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.710
 %if %{with python3_default}
 Requires:	python3-Sphinx = %{version}-%{release}
 Requires:	python3-devel-tools
 Provides:	%{name}-3 = %{version}-%{release}
-Obsoletes:	%{name}-3
+Obsoletes:	sphinx-pdg-3
 %else
 Requires:	python-Sphinx = %{version}-%{release}
 Requires:	python-devel-tools
 Provides:	%{name}-2 = %{version}-%{release}
-Obsoletes:	%{name}-2
+Obsoletes:	sphinx-pdg-2
 %endif
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -102,11 +102,11 @@ będzie przydatne dla wielu innych projektów.
 Summary:	Sphinx Python documentation generator (Python 2.x modules)
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (moduły Pythona 2.x)
 Group:		Development/Languages/Python
-Requires:	python-setuptools > 7.0
 Requires:	python-docutils >= 0.7
 Requires:	python-jinja2 >= 2.3
 Requires:	python-modules
 Requires:	python-pygments >= 1.2
+Requires:	python-setuptools > 7.0
 Conflicts:	sphinx-pdg < 1.0.7-2
 
 %description -n python-Sphinx
@@ -125,10 +125,10 @@ sphinx-pdg.
 Summary:	Sphinx Python documentation generator (Python 3.x modules)
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (moduły Pythona 3.x)
 Group:		Development/Languages/Python
-Requires:	python3-setuptools > 7.0
 Requires:	python3-docutils >= 0.8
 Requires:	python3-jinja2 >= 2.3
 Requires:	python3-pygments >= 1.2
+Requires:	python3-setuptools > 7.0
 Conflicts:	sphinx-pdg-3 < 1.0.7-2
 
 %description -n python3-Sphinx
