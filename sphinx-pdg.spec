@@ -8,12 +8,13 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	1.3.1
-Release:	5
+Version:	1.3.2
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
+#Source0Download: https://pypi.python.org/pypi/Sphinx
 Source0:	https://pypi.python.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	8786a194acf9673464c5455b11fd4332
+# Source0-md5:	740b8171b760fb1fa801bf2d1f2d3133
 URL:		http://sphinx.pocoo.org/
 BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	python-modules >= 1:2.5
@@ -54,28 +55,6 @@ przez Georga Brandla. Pierwotnie powstało do tłumaczenia nowej
 dokumentacji Pythona, ale potem zostało wyczyszczone w nadziei, że
 będzie przydatne dla wielu innych projektów.
 
-%package 3
-Summary:	Sphinx Python documentation generator (Python 3 version)
-Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (wersja dla Pythona 3)
-Group:		Development/Languages/Python
-Requires:	python3-Sphinx = %{version}-%{release}
-
-%description 3
-Sphinx is a tool that makes it easy to create intelligent and
-beautiful documentation for Python projects (or other documents
-consisting of multiple reStructuredText sources), written by Georg
-Brandl. It was originally created to translate the new Python
-documentation, but has now been cleaned up in the hope that it will be
-useful to many other projects.
-
-%description 3 -l pl.UTF-8
-Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
-dokumentacji dla projektów w Pythonie (lub innych dokumentów
-składających się z wielu źródeł w formacie reStructuredText), napisane
-przez Georga Brandla. Pierwotnie powstało do tłumaczenia nowej
-dokumentacji Pythona, ale potem zostało wyczyszczone w nadziei, że
-będzie przydatne dla wielu innych projektów.
-
 %package 2
 Summary:	Sphinx Python documentation generator (Python 2 version)
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (wersja dla Pythona 2)
@@ -91,6 +70,28 @@ documentation, but has now been cleaned up in the hope that it will be
 useful to many other projects.
 
 %description 2 -l pl.UTF-8
+Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
+dokumentacji dla projektów w Pythonie (lub innych dokumentów
+składających się z wielu źródeł w formacie reStructuredText), napisane
+przez Georga Brandla. Pierwotnie powstało do tłumaczenia nowej
+dokumentacji Pythona, ale potem zostało wyczyszczone w nadziei, że
+będzie przydatne dla wielu innych projektów.
+
+%package 3
+Summary:	Sphinx Python documentation generator (Python 3 version)
+Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (wersja dla Pythona 3)
+Group:		Development/Languages/Python
+Requires:	python3-Sphinx = %{version}-%{release}
+
+%description 3
+Sphinx is a tool that makes it easy to create intelligent and
+beautiful documentation for Python projects (or other documents
+consisting of multiple reStructuredText sources), written by Georg
+Brandl. It was originally created to translate the new Python
+documentation, but has now been cleaned up in the hope that it will be
+useful to many other projects.
+
+%description 3 -l pl.UTF-8
 Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
 dokumentacji dla projektów w Pythonie (lub innych dokumentów
 składających się z wielu źródeł w formacie reStructuredText), napisane
