@@ -1,0 +1,11 @@
+--- Sphinx-1.3.3/sphinx/application.py~	2015-11-29 14:18:15.000000000 +0100
++++ Sphinx-1.3.3/sphinx/application.py	2015-12-13 17:10:16.838949090 +0100
+@@ -159,7 +159,7 @@
+ 
+         # check the Sphinx version if requested
+         if self.config.needs_sphinx and \
+-           self.config.needs_sphinx > sphinx.__display_version__[:3]:
++           str(self.config.needs_sphinx) > sphinx.__display_version__[:3]:
+             raise VersionRequirementError(
+                 'This project needs at least Sphinx v%s and therefore cannot '
+                 'be built with this version.' % self.config.needs_sphinx)
