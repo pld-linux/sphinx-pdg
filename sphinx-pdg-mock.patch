@@ -1,0 +1,126 @@
+--- Sphinx-1.5.5/tests/test_build.py.orig	2017-03-28 03:53:51.000000000 +0200
++++ Sphinx-1.5.5/tests/test_build.py	2017-04-16 19:16:14.272256683 +0200
+@@ -11,7 +11,10 @@
+ 
+ import pickle
+ from docutils import nodes
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ import pytest
+ from textwrap import dedent
+ from sphinx.errors import SphinxError
+--- Sphinx-1.5.5/tests/test_config.py.orig	2017-04-03 17:17:12.000000000 +0200
++++ Sphinx-1.5.5/tests/test_config.py	2017-04-16 19:16:22.865589918 +0200
+@@ -11,7 +11,10 @@
+ """
+ from six import PY3, iteritems
+ import pytest
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ 
+ import sphinx
+ from sphinx.config import Config
+--- Sphinx-1.5.5/tests/test_domain_std.py.orig	2017-03-27 03:42:15.000000000 +0200
++++ Sphinx-1.5.5/tests/test_domain_std.py	2017-04-16 19:16:28.592256519 +0200
+@@ -10,7 +10,10 @@
+ """
+ 
+ from docutils import nodes
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ 
+ from sphinx.domains.std import StandardDomain
+ 
+--- Sphinx-1.5.5/tests/test_environment_indexentries.py.orig	2017-04-03 17:17:12.000000000 +0200
++++ Sphinx-1.5.5/tests/test_environment_indexentries.py	2017-04-16 19:16:37.202256421 +0200
+@@ -13,7 +13,10 @@ from collections import namedtuple
+ from sphinx import locale
+ from sphinx.environment.managers.indexentries import IndexEntries
+ 
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ 
+ Environment = namedtuple('Environment', 'indexentries')
+ 
+--- Sphinx-1.5.5/tests/test_ext_intersphinx.py.orig	2017-04-03 17:17:12.000000000 +0200
++++ Sphinx-1.5.5/tests/test_ext_intersphinx.py	2017-04-16 19:16:44.515589673 +0200
+@@ -15,7 +15,10 @@ import zlib
+ 
+ from six import BytesIO
+ from docutils import nodes
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ import pytest
+ import requests
+ from io import BytesIO
+--- Sphinx-1.5.5/tests/test_ext_napoleon_docstring.py.orig	2017-04-03 17:17:12.000000000 +0200
++++ Sphinx-1.5.5/tests/test_ext_napoleon_docstring.py	2017-04-16 19:16:54.252256226 +0200
+@@ -19,7 +19,10 @@ from unittest import TestCase
+ 
+ from sphinx.ext.napoleon import Config
+ from sphinx.ext.napoleon.docstring import GoogleDocstring, NumpyDocstring
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ 
+ 
+ class NamedtupleSubclass(namedtuple('NamedtupleSubclass', ('attr1', 'attr2'))):
+--- Sphinx-1.5.5/tests/test_ext_napoleon.py.orig	2017-03-27 03:42:15.000000000 +0200
++++ Sphinx-1.5.5/tests/test_ext_napoleon.py	2017-04-16 19:17:01.395589480 +0200
+@@ -16,7 +16,10 @@ from unittest import TestCase
+ from sphinx.application import Sphinx
+ from sphinx.ext.napoleon import (_process_docstring, _skip_member, Config,
+                                  setup)
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ 
+ 
+ def _private_doc():
+--- Sphinx-1.5.5/tests/test_theming.py.orig	2017-03-27 03:42:15.000000000 +0200
++++ Sphinx-1.5.5/tests/test_theming.py	2017-04-16 19:17:07.258922745 +0200
+@@ -12,7 +12,10 @@
+ import os
+ import zipfile
+ 
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ import pytest
+ 
+ from sphinx.theming import Theme, ThemeError
+--- Sphinx-1.5.5/tests/test_util_fileutil.py.orig	2017-03-27 03:42:15.000000000 +0200
++++ Sphinx-1.5.5/tests/test_util_fileutil.py	2017-04-16 19:17:19.555589270 +0200
+@@ -11,7 +11,10 @@
+ from sphinx.util.fileutil import copy_asset, copy_asset_file
+ from sphinx.jinja2glue import BuiltinTemplateLoader
+ 
+-import mock
++try:
++    from unittest import mock
++except ImportError:
++    import mock
+ 
+ 
+ class DummyTemplateLoader(BuiltinTemplateLoader):

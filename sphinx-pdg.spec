@@ -6,25 +6,45 @@
 %bcond_without	python2		# CPython 2.x version
 %bcond_without	python3		# CPython 3.x version
 %bcond_without	python3_default	# Use Python 3.x for easy_install executable
+%bcond_without	tests		# unit tests
 
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	1.4.1
-Release:	3
+Version:	1.5.5
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
-#Source0Download: https://pypi.python.org/simple/Sphinx
-Source0:	https://pypi.python.org/packages/61/14/1b1edb28bebde124c455e4dea9cd70685ad8dd2f6baa1a8effe665ebeb23/Sphinx-%{version}.tar.gz
-# Source0-md5:	4c4988e0306a04cef8dccc384281e585
+#Source0Download: https://pypi.python.org/simple/Sphinx/
+Source0:	https://pypi.python.org/packages/64/78/9d63754981e97c8e7cf14500d262fc573145624d4c765d5047f58e3fdf4e/Sphinx-%{version}.tar.gz
+# Source0-md5:	f9581b3556df9722143c47290273bcf8
 Patch0:		float-ver.patch
-Patch1:		docutils-0.13.patch
+Patch1:		%{name}-deps.patch
+Patch2:		%{name}-tests.patch
+Patch3:		%{name}-mock.patch
 URL:		http://sphinx.pocoo.org/
+%if %{with tests} && %(locale -a | grep -q '^C\.UTF-8$'; echo $?)
+BuildRequires:	glibc-localedb-all
+%endif
 %if %{with python2}
 BuildRequires:	python-babel >= 1.3
 BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	python-modules >= 1:2.5
 BuildRequires:	python-setuptools >= 7.0
+%if %{with tests}
+BuildRequires:	python-alabaster >= 0.7
+BuildRequires:	python-alabaster < 0.8
+BuildRequires:	python-docutils >= 0.11
+BuildRequires:	python-html5lib
+BuildRequires:	python-imagesize
+BuildRequires:	python-jinja2 >= 2.3
+BuildRequires:	python-mock
+BuildRequires:	python-pygments >= 2.0
+BuildRequires:	python-pytest >= 3.0
+BuildRequires:	python-requests >= 2.0.0
+BuildRequires:	python-six >= 1.5
+BuildRequires:	python-snowballstemmer >= 1.1
+%endif
 %endif
 %if %{with python3}
 BuildRequires:	python3-2to3
@@ -32,9 +52,27 @@ BuildRequires:	python3-babel >= 1.3
 BuildRequires:	python3-devel
 BuildRequires:	python3-modules
 BuildRequires:	python3-setuptools >= 7.0
+%if %{with tests}
+BuildRequires:	python3-alabaster >= 0.7
+BuildRequires:	python3-alabaster < 0.8
+BuildRequires:	python3-docutils >= 0.11
+BuildRequires:	python3-html5lib
+BuildRequires:	python3-imagesize
+BuildRequires:	python3-jinja2 >= 2.3
+BuildRequires:	python3-pygments >= 2.0
+BuildRequires:	python3-pytest >= 3.0
+BuildRequires:	python3-requests >= 2.0.0
+BuildRequires:	python3-six >= 1.5
+BuildRequires:	python3-snowballstemmer >= 1.1
+%endif
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.710
+BuildRequires:	rpmbuild(macros) >= 1.714
+%if %{with tests}
+# for test_build_latex.py (disabled now)
+#BuildRequires:	texlive-luatex
+#BuildRequires:	texlive-xetex
+%endif
 %if %{with python3_default}
 Requires:	sphinx-pdg-3 = %{version}-%{release}
 %else
@@ -146,16 +184,31 @@ sphinx-pdg-3.
 %setup -q -n Sphinx-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+
+# needs python-babel with at least de,en,ja locales installed
+%{__rm} tests/test_util_i18n.py
+# requires various latex variants, fails in a ways difficult to diagnose
+%{__rm} tests/test_build_latex.py
 
 %build
 %if %{with python2}
 %py_build
 %{__rm} sphinx/__init__.pyc
+
+%if %{with tests}
+LC_ALL=C.UTF-8 %{__python} tests/run.py
+%endif
 %endif
 
 %if %{with python3}
 %py3_build
 %{__rm} -r sphinx/__pycache__
+
+%if %{with tests}
+LC_ALL=C.UTF-8 %{__python3} tests/run.py
+%endif
 %endif
 
 %install

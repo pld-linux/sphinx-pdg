@@ -1,0 +1,18 @@
+--- Sphinx-1.5.5/tests/run.py.orig	2017-04-03 17:17:12.000000000 +0200
++++ Sphinx-1.5.5/tests/run.py	2017-04-12 17:43:14.379599864 +0200
+@@ -54,10 +54,14 @@
+ sys.stdout.flush()
+ 
+ # exclude 'root' and 'roots' dirs for pytest test collector
++ignore_subdirs = ['root', 'roots']
++if sys.version_info[:2] < (3, 5):
++    ignore_subdirs.append('py35')
+ ignore_paths = [
+     os.path.relpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), sub))
+-    for sub in ('root', 'roots')
++    for sub in ignore_subdirs
+ ]
++
+ args = sys.argv[1:]
+ for ignore_path in ignore_paths:
+     args.extend(['--ignore', ignore_path])
