@@ -35,6 +35,8 @@ BuildRequires:	python-setuptools >= 7.0
 BuildRequires:	python-alabaster >= 0.7
 BuildRequires:	python-alabaster < 0.8
 BuildRequires:	python-docutils >= 0.11
+BuildRequires:	python-enum34
+BuildRequires:	python-flake8
 BuildRequires:	python-html5lib
 BuildRequires:	python-imagesize
 BuildRequires:	python-jinja2 >= 2.3
@@ -56,6 +58,7 @@ BuildRequires:	python3-setuptools >= 7.0
 BuildRequires:	python3-alabaster >= 0.7
 BuildRequires:	python3-alabaster < 0.8
 BuildRequires:	python3-docutils >= 0.11
+BuildRequires:	python3-flake8
 BuildRequires:	python3-html5lib
 BuildRequires:	python3-imagesize
 BuildRequires:	python3-jinja2 >= 2.3

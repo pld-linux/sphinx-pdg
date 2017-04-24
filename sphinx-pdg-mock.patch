@@ -6,9 +6,9 @@
  from docutils import nodes
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  import pytest
  from textwrap import dedent
  from sphinx.errors import SphinxError
@@ -20,9 +20,9 @@
  import pytest
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  
  import sphinx
  from sphinx.config import Config
@@ -34,9 +34,9 @@
  from docutils import nodes
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  
  from sphinx.domains.std import StandardDomain
  
@@ -48,9 +48,9 @@
  
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  
  Environment = namedtuple('Environment', 'indexentries')
  
@@ -62,9 +62,9 @@
  from docutils import nodes
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  import pytest
  import requests
  from io import BytesIO
@@ -76,9 +76,9 @@
  from sphinx.ext.napoleon.docstring import GoogleDocstring, NumpyDocstring
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  
  
  class NamedtupleSubclass(namedtuple('NamedtupleSubclass', ('attr1', 'attr2'))):
@@ -90,9 +90,9 @@
                                   setup)
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  
  
  def _private_doc():
@@ -104,9 +104,9 @@
  
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  import pytest
  
  from sphinx.theming import Theme, ThemeError
@@ -118,9 +118,9 @@
  
 -import mock
 +try:
-+    from unittest import mock
-+except ImportError:
 +    import mock
++except ImportError:
++    from unittest import mock
  
  
  class DummyTemplateLoader(BuiltinTemplateLoader):
