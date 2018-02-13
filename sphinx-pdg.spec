@@ -6,13 +6,13 @@
 %bcond_without	python2		# CPython 2.x version
 %bcond_without	python3		# CPython 3.x version
 %bcond_without	python3_default	# Use Python 3.x for easy_install executable
-%bcond_without	tests		# unit tests
+%bcond_with	tests		# unit tests
 
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
 Version:	1.5.5
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/simple/Sphinx/
