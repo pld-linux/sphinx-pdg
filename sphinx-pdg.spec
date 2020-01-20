@@ -6,18 +6,20 @@
 %bcond_without	python2		# CPython 2.x version
 %bcond_without	python3		# CPython 3.x version
 %bcond_without	python3_default	# Use Python 3.x for easy_install executable
-%bcond_with	tests		# unit tests
+%bcond_without	doc		# documentation
+%bcond_with	tests		# unit tests (some fail on import of existing module???)
 
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	1.7.6
-Release:	3
+# note: Sphinx 2+ doesn't support Python 2
+Version:	1.8.5
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
 Source0:	https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	8fbd77d80c8e0966964751ab31a0204a
+# Source0-md5:	554f7a4e752f48b2601e5ef5ab463346
 Patch0:		float-ver.patch
 Patch1:		%{name}-mock.patch
 URL:		http://www.sphinx-doc.org/
@@ -28,14 +30,15 @@ BuildRequires:	glibc-localedb-all
 BuildRequires:	python-babel >= 1.3
 BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-modules >= 1:2.7
-BuildRequires:	python-setuptools >= 7.0
+BuildRequires:	python-setuptools >= 1:7.0
 %if %{with tests}
 BuildRequires:	python-alabaster >= 0.7
 BuildRequires:	python-alabaster < 0.8
 BuildRequires:	python-docutils >= 0.11
 BuildRequires:	python-enum34
-BuildRequires:	python-flake8 >= 3.5.0
-BuildRequires:	python-flake8-import-order
+# for style checks, not run by pytest
+#BuildRequires:	python-flake8 >= 3.5.0
+#BuildRequires:	python-flake8-import-order
 BuildRequires:	python-html5lib
 BuildRequires:	python-imagesize
 BuildRequires:	python-jinja2 >= 2.3
@@ -43,6 +46,8 @@ BuildRequires:	python-mock
 BuildRequires:	python-packaging
 BuildRequires:	python-pygments >= 2.0
 BuildRequires:	python-pytest >= 3.0
+# for coverage tests only
+#BuildRequires:	python-pytest-cov
 BuildRequires:	python-requests >= 2.0.0
 BuildRequires:	python-six >= 1.5
 BuildRequires:	python-snowballstemmer >= 1.1
@@ -51,24 +56,27 @@ BuildRequires:	python-typing
 %endif
 %endif
 %if %{with python3}
-BuildRequires:	python3-2to3
 BuildRequires:	python3-babel >= 1.3
 BuildRequires:	python3-devel >= 1:3.4
 BuildRequires:	python3-modules >= 1:3.4
-BuildRequires:	python3-setuptools >= 7.0
+BuildRequires:	python3-setuptools >= 1:7.0
 %if %{with tests}
 BuildRequires:	python3-alabaster >= 0.7
 BuildRequires:	python3-alabaster < 0.8
 BuildRequires:	python3-docutils >= 0.11
-BuildRequires:	python3-flake8 >= 3.5.0
-BuildRequires:	python3-flake8-import-order
+# for style checks, not run by pytest
+#BuildRequires:	python3-flake8 >= 3.5.0
+#BuildRequires:	python3-flake8-import-order
 BuildRequires:	python3-html5lib
 BuildRequires:	python3-imagesize
 BuildRequires:	python3-jinja2 >= 2.3
-BuildRequires:	python3-mypy
+# for type checks only, not run by pytest
+#BuildRequires:	python3-mypy
 BuildRequires:	python3-packaging
 BuildRequires:	python3-pygments >= 2.0
 BuildRequires:	python3-pytest >= 3.0
+# for coverage tests only
+#BuildRequires:	python3-pytest-cov
 BuildRequires:	python3-requests >= 2.0.0
 BuildRequires:	python3-six >= 1.5
 BuildRequires:	python3-snowballstemmer >= 1.1
@@ -195,6 +203,17 @@ Pythona 3.x).
 Narzędzia działające z linii poleceń znajdują się w pakiecie
 sphinx-pdg-3.
 
+%package doc
+Summary:	Documentation for Sphinx Python documentation generator
+Summary(pl.UTF-8):	Dokumentacja do generatora dokumentacji pythonowej Sphinx
+Group:		Documentation
+
+%description doc
+Documentation for Sphinx Python documentation generator.
+
+%description doc -l pl.UTF-8
+Dokumentacja do generatora dokumentacji pythonowej Sphinx.
+
 %prep
 %setup -q -n Sphinx-%{version}
 %patch0 -p1
@@ -212,6 +231,7 @@ sphinx-pdg-3.
 
 %if %{with tests}
 LC_ALL=C.UTF-8 \
+PYTHONPATH=$(pwd) \
 %{__python} -m pytest tests
 %endif
 %endif
@@ -222,8 +242,14 @@ LC_ALL=C.UTF-8 \
 
 %if %{with tests}
 LC_ALL=C.UTF-8 \
+PYTHONPATH=$(pwd) \
 %{__python3} -m pytest tests
 %endif
+%endif
+
+%if %{with doc}
+PYTHONPATH=$(pwd) \
+%{__make} -C doc -j1 html man
 %endif
 
 %install
@@ -264,6 +290,11 @@ for f in $RPM_BUILD_ROOT%{_bindir}/*-2; do
 done
 %endif
 
+%if %{with doc}
+install -d $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p doc/_build/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -273,6 +304,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/sphinx-autogen
 %attr(755,root,root) %{_bindir}/sphinx-build
 %attr(755,root,root) %{_bindir}/sphinx-quickstart
+%if %{with doc}
+%{_mandir}/man1/sphinx-all.1*
+%{_mandir}/man1/sphinx-apidoc.1*
+%{_mandir}/man1/sphinx-autogen.1*
+%{_mandir}/man1/sphinx-build.1*
+%{_mandir}/man1/sphinx-quickstart.1*
+%endif
 
 %if %{with python2}
 %files 2
@@ -306,4 +344,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS CHANGES EXAMPLES LICENSE README.rst
 %{py3_sitescriptdir}/sphinx
 %{py3_sitescriptdir}/Sphinx-%{version}-py*.egg-info
+%endif
+
+%if %{with doc}
+%files doc
+%defattr(644,root,root,755)
+%doc doc/_build/html/{_images,_static,extdev,man,usage,web,*.html,*.js}
 %endif
