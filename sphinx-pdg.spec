@@ -30,7 +30,8 @@ BuildRequires:	python3-setuptools >= 1:7.0
 BuildRequires:	python3-alabaster >= 0.7
 BuildRequires:	python3-alabaster < 0.8
 BuildRequires:	python3-docutils >= 0.12
-BuildRequires:	python3-docutils-stubs
+# for type checks only (mypy)
+#BuildRequires:	python3-docutils-stubs
 # for style checks, not run by pytest
 #BuildRequires:	python3-flake8 >= 3.5.0
 #BuildRequires:	python3-flake8-import-order
