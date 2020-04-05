@@ -5,7 +5,7 @@
 #
 # Conditional build:
 %bcond_without	doc		# documentation
-%bcond_with	tests		# unit tests (some fail on import of existing module???)
+%bcond_with	tests		# unit tests (some need network)
 
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
