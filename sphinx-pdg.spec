@@ -2,6 +2,9 @@
 # therefore the name for this package is sphinx-pdg (pdg - python
 # documentation generator)
 # NOTE: for last python2 version see python-Sphinx.spec
+
+# TODO
+# - drop "sphinx-pdg-3": merge into sphinx-pdg, as only python3 is supported.
 #
 # Conditional build:
 %bcond_without	doc		# documentation
