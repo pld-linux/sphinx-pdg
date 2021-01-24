@@ -3,8 +3,6 @@
 # documentation generator)
 # NOTE: for last python2 version see python-Sphinx.spec
 
-# TODO
-# - drop "sphinx-pdg-3": merge into sphinx-pdg, as only python3 is supported.
 #
 # Conditional build:
 %bcond_without	doc		# documentation
@@ -13,13 +11,13 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	2.4.4
-Release:	2
+Version:	3.4.3
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
 Source0:	https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	09938ea71d970c5a4dac748d8a0967c6
+# Source0-md5:	80c5176104fe0cfbd1a8430b6da308b4
 Patch0:		float-ver.patch
 URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
@@ -30,23 +28,24 @@ BuildRequires:	python3-devel >= 1:3.5
 BuildRequires:	python3-modules >= 1:3.5
 BuildRequires:	python3-setuptools >= 1:7.0
 %if %{with tests}
+BuildRequires:	python3-Cython
 BuildRequires:	python3-alabaster >= 0.7
 BuildRequires:	python3-alabaster < 0.8
 BuildRequires:	python3-docutils >= 0.12
-# for type checks only (mypy)
+# for lint only (mypy)
 #BuildRequires:	python3-docutils-stubs
-# for style checks, not run by pytest
+# for lint, not run by pytest
 #BuildRequires:	python3-flake8 >= 3.5.0
-#BuildRequires:	python3-flake8-import-order
 BuildRequires:	python3-html5lib
+# for lint
+#BuildRequires:	python3-isort
 BuildRequires:	python3-imagesize
 BuildRequires:	python3-jinja2 >= 2.3
-# for type checks only, not run by pytest
-#BuildRequires:	python3-mypy >= 0.761
+# for lint only, not run by pytest
+#BuildRequires:	python3-mypy >= 0.790
 BuildRequires:	python3-packaging
 BuildRequires:	python3-pygments >= 2.0
 BuildRequires:	python3-pytest >= 3.0
-BuildRequires:	python3-pytest < 5.3.3
 # for coverage tests only
 #BuildRequires:	python3-pytest-cov
 BuildRequires:	python3-requests >= 2.5.0
@@ -58,7 +57,9 @@ BuildRequires:	python3-sphinxcontrib-jsmath
 BuildRequires:	python3-sphinxcontrib-htmlhelp
 BuildRequires:	python3-sphinxcontrib-serializinghtml
 BuildRequires:	python3-sphinxcontrib-qthelp
+%if "%{py3_ver}" < "3.8"
 BuildRequires:	python3-typed_ast
+%endif
 %endif
 %if %{with doc}
 BuildRequires:	python3-sphinxcontrib-applehelp
@@ -76,7 +77,9 @@ BuildRequires:	sed >= 4.0
 #BuildRequires:	texlive-luatex
 #BuildRequires:	texlive-xetex
 %endif
-Requires:	sphinx-pdg-3 = %{version}-%{release}
+Provides:	sphinx-pdg-3 = %{version}-%{release}
+Requires:	python3-Sphinx = %{version}-%{release}
+Obsoletes:	sphinx-pdg-3 < 3
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -89,29 +92,6 @@ documentation, but has now been cleaned up in the hope that it will be
 useful to many other projects.
 
 %description -l pl.UTF-8
-Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
-dokumentacji dla projektów w Pythonie (lub innych dokumentów
-składających się z wielu źródeł w formacie reStructuredText), napisane
-przez Georga Brandla. Pierwotnie powstało do tłumaczenia nowej
-dokumentacji Pythona, ale potem zostało wyczyszczone w nadziei, że
-będzie przydatne dla wielu innych projektów.
-
-%package 3
-Summary:	Sphinx Python documentation generator (Python 3 version)
-Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (wersja dla Pythona 3)
-Group:		Development/Languages/Python
-Requires:	python3-Sphinx = %{version}-%{release}
-Conflicts:	sphinx-pdg < 1.3.2
-
-%description 3
-Sphinx is a tool that makes it easy to create intelligent and
-beautiful documentation for Python projects (or other documents
-consisting of multiple reStructuredText sources), written by Georg
-Brandl. It was originally created to translate the new Python
-documentation, but has now been cleaned up in the hope that it will be
-useful to many other projects.
-
-%description 3 -l pl.UTF-8
 Sphinx to narzędzie ułatwiające tworzenie inteligentnej i ładnej
 dokumentacji dla projektów w Pythonie (lub innych dokumentów
 składających się z wielu źródeł w formacie reStructuredText), napisane
@@ -203,21 +183,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/sphinx-autogen
 %attr(755,root,root) %{_bindir}/sphinx-build
 %attr(755,root,root) %{_bindir}/sphinx-quickstart
+%attr(755,root,root) %{_bindir}/sphinx-apidoc-3
+%attr(755,root,root) %{_bindir}/sphinx-autogen-3
+%attr(755,root,root) %{_bindir}/sphinx-build-3
+%attr(755,root,root) %{_bindir}/sphinx-quickstart-3
 %if %{with doc}
 %{_mandir}/man1/sphinx-all.1*
 %{_mandir}/man1/sphinx-apidoc.1*
 %{_mandir}/man1/sphinx-autogen.1*
 %{_mandir}/man1/sphinx-build.1*
 %{_mandir}/man1/sphinx-quickstart.1*
-%endif
-
-%files 3
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/sphinx-apidoc-3
-%attr(755,root,root) %{_bindir}/sphinx-autogen-3
-%attr(755,root,root) %{_bindir}/sphinx-build-3
-%attr(755,root,root) %{_bindir}/sphinx-quickstart-3
-%if %{with doc}
 %{_mandir}/man1/sphinx-all-3.1*
 %{_mandir}/man1/sphinx-apidoc-3.1*
 %{_mandir}/man1/sphinx-autogen-3.1*
