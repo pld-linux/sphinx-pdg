@@ -1,11 +1,12 @@
---- Sphinx-1.5.3/sphinx/application.py.orig	2017-03-05 07:46:30.349734431 +0100
-+++ Sphinx-1.5.3/sphinx/application.py	2017-03-05 08:33:32.339702213 +0100
-@@ -168,7 +168,7 @@
-         self.config.pre_init_values(self.warn)
+diff -urNp -x '*.orig' Sphinx-3.4.3.org/sphinx/application.py Sphinx-3.4.3/sphinx/application.py
+--- Sphinx-3.4.3.org/sphinx/application.py	2021-01-07 17:15:11.000000000 +0100
++++ Sphinx-3.4.3/sphinx/application.py	2021-02-26 22:55:57.255476762 +0100
+@@ -226,7 +226,7 @@ class Sphinx:
+         self._init_i18n()
  
          # check the Sphinx version if requested
 -        if self.config.needs_sphinx and self.config.needs_sphinx > sphinx.__display_version__:
 +        if self.config.needs_sphinx and str(self.config.needs_sphinx) > sphinx.__display_version__:
              raise VersionRequirementError(
-                 'This project needs at least Sphinx v%s and therefore cannot '
-                 'be built with this version.' % self.config.needs_sphinx)
+                 __('This project needs at least Sphinx v%s and therefore cannot '
+                    'be built with this version.') % self.config.needs_sphinx)
