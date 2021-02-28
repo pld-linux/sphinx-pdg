@@ -11,13 +11,13 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	3.4.3
-Release:	3
+Version:	3.5.1
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
 Source0:	https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	80c5176104fe0cfbd1a8430b6da308b4
+# Source0-md5:	c29fafed45f91fbb3252dff545d09694
 Patch0:		float-ver.patch
 URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
