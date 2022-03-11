@@ -11,14 +11,16 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	3.5.1
-Release:	2
+Version:	3.5.4
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
 Source0:	https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	c29fafed45f91fbb3252dff545d09694
+# Source0-md5:	dd46088ebc01f6f721ee7618df680d68
 Patch0:		float-ver.patch
+Patch1:		Sphinx-jinja3.patch
+Patch2:		Sphinx-docutils.patch
 URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
@@ -42,7 +44,7 @@ BuildRequires:	python3-html5lib
 BuildRequires:	python3-imagesize
 BuildRequires:	python3-jinja2 >= 2.3
 # for lint only, not run by pytest
-#BuildRequires:	python3-mypy >= 0.790
+#BuildRequires:	python3-mypy >= 0.800
 BuildRequires:	python3-packaging
 BuildRequires:	python3-pygments >= 2.0
 BuildRequires:	python3-pytest >= 3.0
@@ -134,6 +136,8 @@ Dokumentacja do generatora dokumentacji pythonowej Sphinx.
 %prep
 %setup -q -n Sphinx-%{version}
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 # needs python-babel with at least de,en,ja locales installed
 %{__rm} tests/test_util_i18n.py
