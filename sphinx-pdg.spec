@@ -11,29 +11,29 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	3.5.4
-Release:	3.1
+Version:	4.5.0
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
 Source0:	https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	dd46088ebc01f6f721ee7618df680d68
+# Source0-md5:	ed63e60d798d212c1afdecf8acda690e
 Patch0:		float-ver.patch
-Patch1:		Sphinx-jinja3.patch
-Patch2:		Sphinx-docutils.patch
+Patch1:		Sphinx-docutils.patch
 URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
 BuildRequires:	python3-babel >= 1.3
-BuildRequires:	python3-devel >= 1:3.5
-BuildRequires:	python3-modules >= 1:3.5
+BuildRequires:	python3-devel >= 1:3.6
+BuildRequires:	python3-modules >= 1:3.6
 BuildRequires:	python3-setuptools >= 1:7.0
 %if %{with tests}
 BuildRequires:	python3-Cython
 BuildRequires:	python3-alabaster >= 0.7
 BuildRequires:	python3-alabaster < 0.8
-BuildRequires:	python3-docutils >= 0.12
+BuildRequires:	python3-docutils >= 0.14
+BuildRequires:	python3-docutils < 0.19
 # for lint only (mypy)
 #BuildRequires:	python3-docutils-stubs
 # for lint, not run by pytest
@@ -42,9 +42,12 @@ BuildRequires:	python3-html5lib
 # for lint
 #BuildRequires:	python3-isort
 BuildRequires:	python3-imagesize
+%if "%{_ver_lt '%{py3_ver}' '3.10'}" == "1"
+BuildRequires:	python3-importlib_metadata >= 4.4
+%endif
 BuildRequires:	python3-jinja2 >= 2.3
 # for lint only, not run by pytest
-#BuildRequires:	python3-mypy >= 0.800
+#BuildRequires:	python3-mypy >= 0.931
 BuildRequires:	python3-packaging
 BuildRequires:	python3-pygments >= 2.0
 BuildRequires:	python3-pytest >= 3.0
@@ -56,24 +59,28 @@ BuildRequires:	python3-snowballstemmer >= 1.1
 BuildRequires:	python3-sphinxcontrib-applehelp
 BuildRequires:	python3-sphinxcontrib-devhelp
 BuildRequires:	python3-sphinxcontrib-jsmath
-BuildRequires:	python3-sphinxcontrib-htmlhelp
-BuildRequires:	python3-sphinxcontrib-serializinghtml
+BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.0.0
+BuildRequires:	python3-sphinxcontrib-serializinghtml >= 1.1.5
 BuildRequires:	python3-sphinxcontrib-qthelp
-%if "%{py3_ver}" < "3.8"
+%if "%{_ver_lt '%{py3_ver}' '3.8'}" == "1"
 BuildRequires:	python3-typed_ast
 %endif
 %endif
 %if %{with doc}
-BuildRequires:	python3-docutils
+BuildRequires:	python3-docutils >= 0.14
+BuildRequires:	python3-docutils < 0.19
+%if "%{_ver_lt '%{py3_ver}' '3.10'}" == "1"
+BuildRequires:	python3-importlib_metadata >= 4.4
+%endif
 BuildRequires:	python3-sphinxcontrib-applehelp
 BuildRequires:	python3-sphinxcontrib-devhelp
-BuildRequires:	python3-sphinxcontrib-htmlhelp
+BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.0.0
 BuildRequires:	python3-sphinxcontrib-qthelp
-BuildRequires:	python3-sphinxcontrib-serializinghtml
+BuildRequires:	python3-sphinxcontrib-serializinghtml >= 1.1.5
 BuildRequires:	python3-sphinxcontrib-websupport
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.714
+BuildRequires:	rpmbuild(macros) >= 1.749
 BuildRequires:	sed >= 4.0
 %if %{with tests}
 # for test_build_latex.py (disabled now)
@@ -107,7 +114,7 @@ Summary:	Sphinx Python documentation generator (Python 3.x modules)
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (moduły Pythona 3.x)
 Group:		Development/Languages/Python
 Requires:	python3-alabaster >= 0.7
-Requires:	python3-docutils >= 0.12
+Requires:	python3-docutils >= 0.14
 Requires:	python3-modules >= 1:3.5
 Requires:	python3-devel-tools
 Conflicts:	sphinx-pdg-3 < 1.0.7-2
@@ -139,7 +146,6 @@ Dokumentacja do generatora dokumentacji pythonowej Sphinx.
 %setup -q -n Sphinx-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 # needs python-babel with at least de,en,ja locales installed
 %{__rm} tests/test_util_i18n.py
