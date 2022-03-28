@@ -117,6 +117,7 @@ Requires:	python3-alabaster >= 0.7
 Requires:	python3-docutils >= 0.14
 Requires:	python3-modules >= 1:3.5
 Requires:	python3-devel-tools
+Conflicts:	python3-sphinxcontrib-asyncio < 0.3.0
 Conflicts:	sphinx-pdg-3 < 1.0.7-2
 
 %description -n python3-Sphinx
