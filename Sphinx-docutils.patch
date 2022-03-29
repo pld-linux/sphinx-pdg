@@ -1,6 +1,6 @@
---- Sphinx-3.5.4/setup.py.orig	2021-04-11 12:40:16.000000000 +0200
-+++ Sphinx-3.5.4/setup.py	2022-03-11 06:21:28.393510714 +0100
-@@ -23,7 +23,7 @@ install_requires = [
+--- Sphinx-4.5.0/setup.py.orig	2021-04-11 12:40:16.000000000 +0200
++++ Sphinx-4.5.0/setup.py	2022-03-11 06:21:28.393510714 +0100
+@@ -22,7 +22,7 @@ install_requires = [
      'sphinxcontrib-qthelp',
      'Jinja2>=2.3',
      'Pygments>=2.0',
