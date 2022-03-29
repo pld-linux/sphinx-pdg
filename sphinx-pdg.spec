@@ -11,15 +11,14 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	3.5.4
-Release:	3.1
+Version:	4.5.0
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
 Source0:	https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	dd46088ebc01f6f721ee7618df680d68
+# Source0-md5:	ed63e60d798d212c1afdecf8acda690e
 Patch0:		float-ver.patch
-Patch1:		Sphinx-jinja3.patch
 Patch2:		Sphinx-docutils.patch
 URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
@@ -59,12 +58,16 @@ BuildRequires:	python3-sphinxcontrib-jsmath
 BuildRequires:	python3-sphinxcontrib-htmlhelp
 BuildRequires:	python3-sphinxcontrib-serializinghtml
 BuildRequires:	python3-sphinxcontrib-qthelp
-%if "%{py3_ver}" < "3.8"
-BuildRequires:	python3-typed_ast
-%endif
 %endif
 %if %{with doc}
+BuildRequires:	python3-alabaster >= 0.7
+BuildRequires:	python3-alabaster < 0.8
 BuildRequires:	python3-docutils
+BuildRequires:	python3-imagesize
+BuildRequires:	python3-jinja2 >= 2.3
+BuildRequires:	python3-packaging
+BuildRequires:	python3-pygments
+BuildRequires:	python3-requests >= 2.5.0
 BuildRequires:	python3-sphinxcontrib-applehelp
 BuildRequires:	python3-sphinxcontrib-devhelp
 BuildRequires:	python3-sphinxcontrib-htmlhelp
@@ -138,7 +141,6 @@ Dokumentacja do generatora dokumentacji pythonowej Sphinx.
 %prep
 %setup -q -n Sphinx-%{version}
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 
 # needs python-babel with at least de,en,ja locales installed
