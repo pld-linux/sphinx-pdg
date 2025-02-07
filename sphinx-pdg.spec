@@ -11,15 +11,14 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	4.5.0
-Release:	2
+Version:	8.1.3
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
-Source0:	https://files.pythonhosted.org/packages/source/S/Sphinx/Sphinx-%{version}.tar.gz
-# Source0-md5:	ed63e60d798d212c1afdecf8acda690e
+Source0:	https://pypi.debian.net/sphinx/sphinx-%{version}.tar.gz
+# Source0-md5:	845210d4c36be0dac08ec2ce2411a194
 Patch0:		float-ver.patch
-Patch1:		Sphinx-docutils.patch
 URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
@@ -59,7 +58,7 @@ BuildRequires:	python3-snowballstemmer >= 1.1
 BuildRequires:	python3-sphinxcontrib-applehelp
 BuildRequires:	python3-sphinxcontrib-devhelp
 BuildRequires:	python3-sphinxcontrib-jsmath
-BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.0.0
+BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.1.0
 BuildRequires:	python3-sphinxcontrib-serializinghtml >= 1.1.5
 BuildRequires:	python3-sphinxcontrib-qthelp
 %endif
@@ -78,7 +77,7 @@ BuildRequires:	python3-pygments
 BuildRequires:	python3-requests >= 2.5.0
 BuildRequires:	python3-sphinxcontrib-applehelp
 BuildRequires:	python3-sphinxcontrib-devhelp
-BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.0.0
+BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.1.0
 BuildRequires:	python3-sphinxcontrib-qthelp
 BuildRequires:	python3-sphinxcontrib-serializinghtml >= 1.1.5
 BuildRequires:	python3-sphinxcontrib-websupport
@@ -151,18 +150,16 @@ Documentation for Sphinx Python documentation generator.
 Dokumentacja do generatora dokumentacji pythonowej Sphinx.
 
 %prep
-%setup -q -n Sphinx-%{version}
-%patch0 -p1
-%patch1 -p1
+%setup -q -n sphinx-%{version}
+%patch -P0 -p1
 
 # needs python-babel with at least de,en,ja locales installed
-%{__rm} tests/test_util_i18n.py
+#%{__rm} tests/test_util_i18n.py
 # requires various latex variants, fails in a ways difficult to diagnose
-%{__rm} tests/test_build_latex.py
+#%{__rm} tests/test_build_latex.py
 
 %build
-%py3_build
-%{__rm} -r sphinx/__pycache__
+%{__python3} -m build --wheel --no-isolation --outdir build-3
 
 %if %{with tests}
 LC_ALL=C.UTF-8 \
@@ -178,9 +175,7 @@ PYTHONPATH=$(pwd) \
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%py3_install
-
-%{__rm} -r sphinx/__pycache__
+%{__python3} -m installer --destdir=$RPM_BUILD_ROOT build-3/*.whl
 
 for f in $RPM_BUILD_ROOT%{_bindir}/*; do
 	%{__mv} "${f}" "${f}-3"
@@ -223,9 +218,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n python3-Sphinx
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES EXAMPLES LICENSE README.rst
+%doc AUTHORS.rst CHANGES.rst EXAMPLES.rst LICENSE.rst README.rst
 %{py3_sitescriptdir}/sphinx
-%{py3_sitescriptdir}/Sphinx-%{version}-py*.egg-info
+%{py3_sitescriptdir}/sphinx-%{version}.dist-info
 
 %if %{with doc}
 %files doc
