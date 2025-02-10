@@ -54,7 +54,7 @@ BuildRequires:	python3-pytest >= 3.0
 BuildRequires:	python3-requests >= 2.5.0
 BuildRequires:	python3-six >= 1.5
 BuildRequires:	python3-snowballstemmer >= 1.1
-BuildRequires:	python3-sphinxcontrib-applehelp
+BuildRequires:	python3-sphinxcontrib-applehelp >= 2.0
 BuildRequires:	python3-sphinxcontrib-devhelp
 BuildRequires:	python3-sphinxcontrib-jsmath
 BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.1.0
@@ -73,7 +73,7 @@ BuildRequires:	python3-jinja2 >= 2.3
 BuildRequires:	python3-packaging
 BuildRequires:	python3-pygments
 BuildRequires:	python3-requests >= 2.5.0
-BuildRequires:	python3-sphinxcontrib-applehelp
+BuildRequires:	python3-sphinxcontrib-applehelp >= 2.0
 BuildRequires:	python3-sphinxcontrib-devhelp
 BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.1.0
 BuildRequires:	python3-sphinxcontrib-qthelp
