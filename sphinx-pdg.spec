@@ -12,7 +12,7 @@ Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
 Version:	8.1.3
-Release:	1
+Release:	2
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
@@ -23,16 +23,15 @@ URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
-BuildRequires:	python3-babel >= 1.3
+BuildRequires:	python3-babel >= 2.13
 BuildRequires:	python3-devel >= 1:3.6
 BuildRequires:	python3-modules >= 1:3.6
 BuildRequires:	python3-setuptools >= 1:7.0
 %if %{with tests}
 BuildRequires:	python3-Cython
 BuildRequires:	python3-alabaster >= 0.7
-BuildRequires:	python3-alabaster < 0.8
-BuildRequires:	python3-docutils >= 0.14
-BuildRequires:	python3-docutils < 0.19
+BuildRequires:	python3-docutils >= 0.20
+BuildRequires:	python3-docutils < 0.22
 # for lint only (mypy)
 #BuildRequires:	python3-docutils-stubs
 # for lint, not run by pytest
@@ -44,11 +43,11 @@ BuildRequires:	python3-imagesize
 %if "%{_ver_lt '%{py3_ver}' '3.10'}" == "1"
 BuildRequires:	python3-importlib_metadata >= 4.4
 %endif
-BuildRequires:	python3-jinja2 >= 2.3
+BuildRequires:	python3-jinja2 >= 3.1
 # for lint only, not run by pytest
 #BuildRequires:	python3-mypy >= 0.931
-BuildRequires:	python3-packaging
-BuildRequires:	python3-pygments >= 2.0
+BuildRequires:	python3-packaging >= 23.0
+BuildRequires:	python3-pygments >= 2.17
 BuildRequires:	python3-pytest >= 3.0
 # for coverage tests only
 #BuildRequires:	python3-pytest-cov
@@ -64,9 +63,8 @@ BuildRequires:	python3-sphinxcontrib-qthelp
 %endif
 %if %{with doc}
 BuildRequires:	python3-alabaster >= 0.7
-BuildRequires:	python3-alabaster < 0.8
-BuildRequires:	python3-docutils >= 0.14
-BuildRequires:	python3-docutils < 0.19
+BuildRequires:	python3-docutils >= 0.20
+BuildRequires:	python3-docutils < 0.22
 BuildRequires:	python3-imagesize
 %if "%{_ver_lt '%{py3_ver}' '3.10'}" == "1"
 BuildRequires:	python3-importlib_metadata >= 4.4
@@ -120,7 +118,7 @@ Summary:	Sphinx Python documentation generator (Python 3.x modules)
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (moduły Pythona 3.x)
 Group:		Development/Languages/Python
 Requires:	python3-alabaster >= 0.7
-Requires:	python3-docutils >= 0.14
+Requires:	python3-docutils >= 0.20
 Requires:	python3-modules >= 1:3.5
 Requires:	python3-devel-tools
 Conflicts:	python3-sphinxcontrib-asyncio < 0.3.0
