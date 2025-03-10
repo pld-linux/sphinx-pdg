@@ -12,7 +12,7 @@ Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
 Version:	8.1.3
-Release:	3
+Release:	4
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
@@ -27,6 +27,7 @@ BuildRequires:	python3-babel >= 2.13
 BuildRequires:	python3-devel >= 1:3.6
 BuildRequires:	python3-modules >= 1:3.6
 BuildRequires:	python3-setuptools >= 1:7.0
+BuildRequires:	python3-snowballstemmer >= 1.1
 %if %{with tests}
 BuildRequires:	python3-Cython
 BuildRequires:	python3-alabaster >= 0.7
@@ -53,7 +54,6 @@ BuildRequires:	python3-pytest >= 3.0
 #BuildRequires:	python3-pytest-cov
 BuildRequires:	python3-requests >= 2.5.0
 BuildRequires:	python3-six >= 1.5
-BuildRequires:	python3-snowballstemmer >= 1.1
 BuildRequires:	python3-sphinxcontrib-applehelp >= 2.0
 BuildRequires:	python3-sphinxcontrib-devhelp
 BuildRequires:	python3-sphinxcontrib-jsmath
