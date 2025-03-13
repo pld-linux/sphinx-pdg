@@ -78,6 +78,7 @@ BuildRequires:	python3-requests >= 2.5.0
 BuildRequires:	python3-sphinxcontrib-applehelp >= 2.0
 BuildRequires:	python3-sphinxcontrib-devhelp
 BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.1.0
+BuildRequires:	python3-sphinxcontrib-jsmath >= 1.0.1
 BuildRequires:	python3-sphinxcontrib-qthelp
 BuildRequires:	python3-sphinxcontrib-serializinghtml >= 1.1.5
 BuildRequires:	python3-sphinxcontrib-websupport
