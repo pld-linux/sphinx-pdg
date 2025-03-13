@@ -1,0 +1,14 @@
+--- sphinx-8.3.0/pyproject.toml~	2025-03-02 21:56:12.000000000 +0100
++++ sphinx-8.3.0/pyproject.toml	2025-03-13 21:38:37.286653322 +0100
+@@ -13,10 +13,7 @@
+ urls.Download = "https://pypi.org/project/Sphinx/"
+ urls.Homepage = "https://www.sphinx-doc.org/"
+ urls."Issue tracker" = "https://github.com/sphinx-doc/sphinx/issues"
+-license = "BSD-2-Clause"
+-license-files = [
+-    "LICENSE.rst",
+-]
++license = {text = "BSD-2-Clause"}
+ requires-python = ">=3.11"
+ 
+ # Classifiers list: https://pypi.org/classifiers/

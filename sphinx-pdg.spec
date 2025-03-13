@@ -11,14 +11,14 @@
 Summary:	Sphinx - Python documentation generator
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona
 Name:		sphinx-pdg
-Version:	8.1.3
-Release:	5
+Version:	8.3.0
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/Sphinx/
 Source0:	https://pypi.debian.net/sphinx/sphinx-%{version}.tar.gz
-# Source0-md5:	845210d4c36be0dac08ec2ce2411a194
-Patch0:		float-ver.patch
+# Source0-md5:	2efca101a19b518af6756c90b80817e9
+Patch0:		license-dict.patch
 URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
@@ -28,6 +28,8 @@ BuildRequires:	python3-devel >= 1:3.6
 BuildRequires:	python3-modules >= 1:3.6
 BuildRequires:	python3-setuptools >= 1:7.0
 BuildRequires:	python3-snowballstemmer >= 1.1
+BuildRequires:	python3-flit_core >= 3.11
+BuildRequires:	python3-roman-numerals-py >= 1.0.0
 %if %{with tests}
 BuildRequires:	python3-Cython
 BuildRequires:	python3-alabaster >= 0.7
@@ -157,7 +159,8 @@ Dokumentacja do generatora dokumentacji pythonowej Sphinx.
 #%{__rm} tests/test_build_latex.py
 
 %build
-%{__python3} -m build --wheel --no-isolation --outdir build-3
+#%{__python3} -m build --wheel --no-isolation --outdir build-3
+%py3_build_pyproject
 
 %if %{with tests}
 LC_ALL=C.UTF-8 \
@@ -173,7 +176,8 @@ PYTHONPATH=$(pwd) \
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__python3} -m installer --destdir=$RPM_BUILD_ROOT build-3/*.whl
+#%{__python3} -m installer --destdir=$RPM_BUILD_ROOT build-3/*.whl
+%py3_install_pyproject
 
 for f in $RPM_BUILD_ROOT%{_bindir}/*; do
 	%{__mv} "${f}" "${f}-3"
