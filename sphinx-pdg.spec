@@ -23,71 +23,38 @@ URL:		http://www.sphinx-doc.org/
 %if %{with tests} && %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
+BuildRequires:	python3-alabaster >= 0.7.14
 BuildRequires:	python3-babel >= 2.13
 BuildRequires:	python3-devel >= 1:3.6
-BuildRequires:	python3-modules >= 1:3.6
-BuildRequires:	python3-setuptools >= 1:7.0
-BuildRequires:	python3-snowballstemmer >= 1.1
-BuildRequires:	python3-flit_core >= 3.11
-BuildRequires:	python3-roman-numerals-py >= 1.0.0
-%if %{with tests}
-BuildRequires:	python3-Cython
-BuildRequires:	python3-alabaster >= 0.7
 BuildRequires:	python3-docutils >= 0.20
 BuildRequires:	python3-docutils < 0.22
-# for lint only (mypy)
-#BuildRequires:	python3-docutils-stubs
-# for lint, not run by pytest
-#BuildRequires:	python3-flake8 >= 3.5.0
-BuildRequires:	python3-html5lib
-# for lint
-#BuildRequires:	python3-isort
-BuildRequires:	python3-imagesize
-%if "%{_ver_lt '%{py3_ver}' '3.10'}" == "1"
-BuildRequires:	python3-importlib_metadata >= 4.4
-%endif
+BuildRequires:	python3-flit_core >= 3.11
+BuildRequires:	python3-imagesize >= 1.3
 BuildRequires:	python3-jinja2 >= 3.1
-# for lint only, not run by pytest
-#BuildRequires:	python3-mypy >= 0.931
+BuildRequires:	python3-modules >= 1:3.11
 BuildRequires:	python3-packaging >= 23.0
 BuildRequires:	python3-pygments >= 2.17
-BuildRequires:	python3-pytest >= 3.0
-# for coverage tests only
-#BuildRequires:	python3-pytest-cov
-BuildRequires:	python3-requests >= 2.5.0
-BuildRequires:	python3-six >= 1.5
+BuildRequires:	python3-requests >= 2.30.0
+BuildRequires:	python3-roman-numerals-py >= 1.0.0
+BuildRequires:	python3-snowballstemmer >= 2.2
 BuildRequires:	python3-sphinxcontrib-applehelp >= 2.0
-BuildRequires:	python3-sphinxcontrib-devhelp
-BuildRequires:	python3-sphinxcontrib-jsmath
-BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.1.0
-BuildRequires:	python3-sphinxcontrib-serializinghtml >= 1.1.5
-BuildRequires:	python3-sphinxcontrib-qthelp
-%endif
-%if %{with doc}
-BuildRequires:	python3-alabaster >= 0.7
-BuildRequires:	python3-docutils >= 0.20
-BuildRequires:	python3-docutils < 0.22
-BuildRequires:	python3-imagesize
-%if "%{_ver_lt '%{py3_ver}' '3.10'}" == "1"
-BuildRequires:	python3-importlib_metadata >= 4.4
-%endif
-BuildRequires:	python3-jinja2 >= 2.3
-BuildRequires:	python3-packaging
-BuildRequires:	python3-pygments
-BuildRequires:	python3-requests >= 2.5.0
-BuildRequires:	python3-sphinxcontrib-applehelp >= 2.0
-BuildRequires:	python3-sphinxcontrib-devhelp
+BuildRequires:	python3-sphinxcontrib-devhelp >= 1.0.6
 BuildRequires:	python3-sphinxcontrib-htmlhelp >= 2.1.0
 BuildRequires:	python3-sphinxcontrib-jsmath >= 1.0.1
-BuildRequires:	python3-sphinxcontrib-qthelp
-BuildRequires:	python3-sphinxcontrib-serializinghtml >= 1.1.5
-BuildRequires:	python3-sphinxcontrib-websupport
-%if "%{_ver_lt '%{py3_ver}' '3.8'}" == "1"
-BuildRequires:	python3-typed_ast
+BuildRequires:	python3-sphinxcontrib-qthelp >= 1.0.6
+BuildRequires:	python3-sphinxcontrib-serializinghtml >= 1.1.9
+%if %{with tests}
+BuildRequires:	python3-Cython >= 3.0
+BuildRequires:	python3-defusedxml >= 0.7.1
+BuildRequires:	python3-pytest >= 8.0
+BuildRequires:	python3-setuptools >= 1:70.0
+BuildRequires:	python3-typing_extensions >= 4.9
 %endif
+%if %{with doc}
+BuildRequires:	python3-sphinxcontrib-websupport
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.749
+BuildRequires:	rpmbuild(macros) >= 2.044
 BuildRequires:	sed >= 4.0
 %if %{with tests}
 # for test_build_latex.py (disabled now)
@@ -120,11 +87,8 @@ będzie przydatne dla wielu innych projektów.
 Summary:	Sphinx Python documentation generator (Python 3.x modules)
 Summary(pl.UTF-8):	Sphinx - narzędzie do tworzenia dokumentacji dla Pythona (moduły Pythona 3.x)
 Group:		Development/Languages/Python
-Requires:	python3-alabaster >= 0.7
-Requires:	python3-docutils >= 0.20
-Requires:	python3-modules >= 1:3.5
 Requires:	python3-devel-tools
-Requires:	python3-sphinx-notfound-page >= 1.1.0
+Requires:	python3-modules >= 1:3.11
 Conflicts:	python3-sphinxcontrib-asyncio < 0.3.0
 Conflicts:	sphinx-pdg-3 < 1.0.7-2
 
@@ -156,17 +120,17 @@ Dokumentacja do generatora dokumentacji pythonowej Sphinx.
 %patch -P0 -p1
 
 # needs python-babel with at least de,en,ja locales installed
-#%{__rm} tests/test_util_i18n.py
+%{__rm} tests/test_util/test_util_i18n.py
 # requires various latex variants, fails in a ways difficult to diagnose
-#%{__rm} tests/test_build_latex.py
+%{__rm} tests/test_builders/test_build_latex.py
 
 %build
-#%{__python3} -m build --wheel --no-isolation --outdir build-3
 %py3_build_pyproject
 
 %if %{with tests}
 LC_ALL=C.UTF-8 \
 PYTHONPATH=$(pwd) \
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 %{__python3} -m pytest tests
 %endif
 
@@ -178,7 +142,6 @@ PYTHONPATH=$(pwd) \
 %install
 rm -rf $RPM_BUILD_ROOT
 
-#%{__python3} -m installer --destdir=$RPM_BUILD_ROOT build-3/*.whl
 %py3_install_pyproject
 
 for f in $RPM_BUILD_ROOT%{_bindir}/*; do
